@@ -1,0 +1,605 @@
+/* ==========================================================
+   Tornados: os maiores do mundo, dos EUA e do Brasil
+   Salvar em: static/style.css
+   ========================================================== */
+
+:root {
+  --bg: #f3f5f7;
+  --panel: #ffffff;
+  --ink: #1b2631;
+  --muted: #5a6876;
+  --line: #d9e0e6;
+  --storm-1: #0e1a24;
+  --storm-2: #223545;
+  --storm-3: #3d566b;
+  --accent: #e8a317;
+  --accent-ink: #5c3d00;
+  --radius: 14px;
+  --shadow: 0 1px 2px rgba(15, 30, 45, 0.06), 0 6px 20px rgba(15, 30, 45, 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #101820;
+    --panel: #172431;
+    --ink: #e6edf3;
+    --muted: #9fb0be;
+    --line: #2a3b4a;
+    --accent-ink: #ffd27a;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.25);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 16px;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.2;
+  margin: 0;
+}
+
+a:focus-visible,
+.chip:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ---------- Topo (hero) ---------- */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  color: #f2f6f9;
+  background:
+    radial-gradient(ellipse 70% 40% at 20% 0%, rgba(255, 255, 255, 0.1), transparent 70%),
+    radial-gradient(ellipse 60% 35% at 85% 5%, rgba(255, 255, 255, 0.08), transparent 70%),
+    linear-gradient(180deg, var(--storm-1) 0%, var(--storm-2) 60%, var(--storm-3) 100%);
+}
+
+.hero .wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 340px);
+  grid-template-areas:
+    "nav nav"
+    "text funnel";
+  column-gap: 40px;
+  align-items: center;
+  padding-top: 16px;
+  padding-bottom: 64px;
+}
+
+.hero nav {
+  grid-area: nav;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 24px;
+  padding: 10px 0 14px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.hero nav a {
+  color: #cdd9e3;
+  text-decoration: none;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
+.hero nav a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 6px;
+}
+
+.hero .wrap > div:nth-of-type(1) {
+  grid-area: text;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  letter-spacing: -0.01em;
+}
+
+.lead {
+  max-width: 56ch;
+  margin: 18px 0 30px;
+  font-size: 1.1rem;
+  color: #d3dee8;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.stats > div {
+  padding: 16px 16px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.stats b {
+  display: block;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  line-height: 1.1;
+  color: var(--accent);
+}
+
+.stats span {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: #c3d0db;
+}
+
+/* ---------- Tornado desenhado só com CSS ---------- */
+
+#funnel {
+  grid-area: funnel;
+  position: relative;
+  height: 380px;
+  width: 100%;
+  max-width: 340px;
+  justify-self: center;
+}
+
+#funnel::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 18px 0;
+  clip-path: polygon(0% 0%, 100% 0%, 88% 16%, 76% 34%, 65% 54%, 56% 76%, 51% 100%, 46% 100%, 40% 76%, 32% 54%, 22% 34%, 11% 16%);
+  background:
+    repeating-linear-gradient(172deg, rgba(255, 255, 255, 0.22) 0 5px, transparent 5px 17px),
+    linear-gradient(180deg, #a9bac8 0%, #6d8397 45%, #3a4c5b 100%);
+  background-size: 220px 100%, 100% 100%;
+  animation: giro 2.4s linear infinite;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.35));
+  mask-image: linear-gradient(180deg, transparent 0%, #000 14%);
+}
+
+#funnel::after {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 0;
+  height: 34px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(205, 190, 160, 0.55) 0%, rgba(205, 190, 160, 0.18) 55%, transparent 75%);
+  filter: blur(4px);
+  animation: poeira 3.2s ease-in-out infinite;
+}
+
+@keyframes giro {
+  from {
+    background-position: 0 0, 0 0;
+  }
+  to {
+    background-position: 220px 0, 0 0;
+  }
+}
+
+@keyframes poeira {
+  0%,
+  100% {
+    transform: scaleX(0.9);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scaleX(1.08);
+    opacity: 1;
+  }
+}
+
+/* ---------- Seções ---------- */
+
+section {
+  padding: 64px 0;
+}
+
+#brasil,
+#curiosidades {
+  background: var(--panel);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+section h2 {
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+  padding-bottom: 12px;
+  position: relative;
+}
+
+section h2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 56px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+.sub {
+  max-width: 72ch;
+  margin: 18px 0 26px;
+  color: var(--muted);
+}
+
+code {
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgba(127, 127, 127, 0.16);
+  font-size: 0.9em;
+}
+
+/* ---------- Filtros e ranking ---------- */
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.controls .group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.controls .chip {
+  margin: 0;
+  padding: 7px 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--ink);
+  font-size: 0.95rem;
+  text-decoration: none;
+  opacity: 1;
+  transition: background 0.15s, border-color 0.15s, transform 0.15s;
+}
+
+.controls .chip:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.controls .chip.active {
+  background: var(--storm-2);
+  border: 1px solid var(--storm-2);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.ranking {
+  display: grid;
+  gap: 14px;
+  counter-reset: posicao;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+ol.ranking li {
+  counter-increment: posicao;
+  position: relative;
+  padding: 18px 20px 18px 64px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.ranking li::before {
+  content: counter(posicao);
+  position: absolute;
+  left: 18px;
+  top: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--storm-2);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 32px;
+  text-align: center;
+}
+
+.ranking li:first-child::before {
+  background: var(--accent);
+  color: #3a2700;
+}
+
+.r-head {
+  align-items: baseline;
+}
+
+.r-head strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.15rem;
+}
+
+.r-val {
+  font-weight: 700;
+  color: var(--accent-ink);
+  white-space: nowrap;
+}
+
+.r-meta {
+  font-size: 0.88rem;
+}
+
+.ranking .r-bar {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 10px;
+  border: 0;
+  border-radius: 5px;
+  background: rgba(127, 127, 127, 0.2);
+  accent-color: var(--accent);
+  overflow: hidden;
+}
+
+.ranking .r-bar::-webkit-progress-bar {
+  background: rgba(127, 127, 127, 0.2);
+  border-radius: 5px;
+}
+
+.ranking .r-bar::-webkit-progress-value {
+  background: linear-gradient(90deg, var(--accent), #f4c95d);
+  border-radius: 5px;
+}
+
+.ranking .r-bar::-moz-progress-bar {
+  background: linear-gradient(90deg, var(--accent), #f4c95d);
+  border-radius: 5px;
+}
+
+.r-note {
+  color: var(--muted);
+}
+
+/* ---------- Linha do tempo (Brasil) ---------- */
+
+.timeline {
+  margin: 28px 0 0;
+  padding: 0 0 0 26px;
+  list-style: none;
+  border-left: 3px solid var(--accent);
+}
+
+.timeline li {
+  position: relative;
+  padding: 0 0 30px 12px;
+}
+
+.timeline li:last-child {
+  padding-bottom: 6px;
+}
+
+.timeline li::before {
+  content: "";
+  position: absolute;
+  left: -37px;
+  top: 6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--panel);
+  border: 4px solid var(--accent);
+}
+
+.when {
+  display: inline-block;
+  padding: 2px 12px;
+  border-radius: 999px;
+  background: rgba(232, 163, 23, 0.16);
+  color: var(--accent-ink);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.timeline h3 {
+  margin: 8px 0 6px;
+  font-size: 1.3rem;
+}
+
+.timeline p {
+  margin: 0;
+  max-width: 70ch;
+  color: var(--muted);
+}
+
+.callout {
+  margin-top: 12px;
+  padding: 18px 22px;
+  border-left: 5px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: rgba(232, 163, 23, 0.1);
+  max-width: 78ch;
+}
+
+/* ---------- Tabela da escala Fujita ---------- */
+
+.table-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 13px 18px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+}
+
+th {
+  background: rgba(127, 127, 127, 0.1);
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+tbody td:first-child {
+  font-weight: 700;
+  border-left: 8px solid var(--nivel, var(--line));
+}
+
+tr.ef0 { --nivel: #7fb069; }
+tr.ef1 { --nivel: #b7c94a; }
+tr.ef2 { --nivel: #f2c14e; }
+tr.ef3 { --nivel: #f19a3e; }
+tr.ef4 { --nivel: #e4572e; }
+tr.ef5 { --nivel: #9b2d6e; }
+
+/* ---------- Curiosidades ---------- */
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.facts > div {
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+
+.facts h3 {
+  font-size: 1.15rem;
+  margin-bottom: 8px;
+}
+
+.facts p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.96rem;
+}
+
+/* ---------- Rodapé ---------- */
+
+footer {
+  padding: 36px 0 44px;
+  background: var(--storm-1);
+  color: #a9b9c6;
+  font-size: 0.88rem;
+}
+
+footer p {
+  max-width: 80ch;
+  margin: 0 0 10px;
+}
+
+/* ---------- Celular ---------- */
+
+@media (max-width: 820px) {
+  body {
+    font-size: 16px;
+  }
+
+  .hero .wrap {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "nav"
+      "text"
+      "funnel";
+    padding-bottom: 40px;
+  }
+
+  .hero nav {
+    margin-bottom: 28px;
+  }
+
+  #funnel {
+    height: 260px;
+    max-width: 240px;
+    margin-top: 32px;
+  }
+
+  .stats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  section {
+    padding: 44px 0;
+  }
+
+  ol.ranking li {
+    padding: 16px 16px 16px 58px;
+  }
+
+  .ranking li::before {
+    left: 14px;
+  }
+}
+
+/* ---------- Respeita quem prefere menos movimento ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  #funnel::before,
+  #funnel::after {
+    animation: none;
+  }
+
+  .controls .chip {
+    transition: none;
+  }
+}
