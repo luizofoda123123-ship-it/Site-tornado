@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tornados: os maiores do mundo, dos EUA e do Brasil</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+.chip{display:inline-block;padding:.35rem .8rem;margin:0 .35rem .35rem 0;border:1px solid currentColor;border-radius:999px;text-decoration:none;color:inherit;opacity:.7}
+.chip.active{opacity:1;font-weight:700;border-width:2px}
+.ranking{list-style:none;padding:0;margin:1.2rem 0 0}
+.ranking li{padding:.9rem 0;border-bottom:1px solid rgba(127,127,127,.3)}
+.r-head{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.r-meta{opacity:.7;font-size:.9rem;margin:.15rem 0 .4rem}
+.r-bar{display:block;width:100%;height:8px;accent-color:currentColor}
+.r-note{margin:.5rem 0 0;font-size:.95rem}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <nav aria-label="Principal">
+      <a href="#recordes">Recordes</a>
+      <a href="#brasil">Brasil</a>
+      <a href="#escala">Escala Fujita</a>
+      <a href="#curiosidades">Curiosidades</a>
+    </nav>
+    <div>
+      <h1>Tornados: os maiores já registrados</h1>
+      <p class="lead">Os mais mortais, os mais largos e os que mais custaram. Dos Estados Unidos, o país com mais tornados do planeta, até o Sul do Brasil, uma das regiões mais ativas do mundo.</p>
+      <div class="stats">
+        <div><b>~1.300</b><span>mortes no pior tornado<br>(Bangladesh, 1989)</span></div>
+        <div><b>4,2 km</b><span>de largura no maior<br>(El Reno, EUA, 2013)</span></div>
+        <div><b>484 km/h</b><span>vento mais forte medido<br>(Oklahoma, 1999)</span></div>
+      </div>
+    </div>
+    <div id="funnel" aria-hidden="true"></div>
+  </div>
+</header>
+
+<main>
+<section id="recordes">
+  <div class="wrap">
+    <h2>Ranking dos recordes</h2>
+    <p class="sub">Escolha o critério e o país. A página é montada pelo servidor Python, sem JavaScript.</p>
+    <div class="controls">
+      <div class="group" role="group" aria-label="Critério" id="metricGroup">
+        {% for chave, rotulo in metricas.items() %}
+        <a class="chip {{ 'active' if chave == metric else '' }}" href="{{ url_for('home', metric=chave, country=country) }}#recordes">{{ rotulo }}</a>
+        {% endfor %}
+      </div>
+      <div class="group" role="group" aria-label="País" id="countryGroup">
+        {% for p in paises %}
+        <a class="chip {{ 'active' if p == country else '' }}" href="{{ url_for('home', metric=metric, country=p) }}#recordes">{{ p }}</a>
+        {% endfor %}
+      </div>
+    </div>
+    <ol id="ranking" class="ranking">
+      {% for t in ranking %}
+      <li>
+        <div class="r-head">
+          <strong>{{ t.name }}</strong>
+          <span class="r-val">{{ t.valor }}</span>
+        </div>
+        <div class="r-meta">{{ t.year }} · {{ t.place }} · {{ t.rating }}</div>
+        <progress class="r-bar" value="{{ t.pct }}" max="100">{{ t.pct }}%</progress>
+        <p class="r-note">{{ t.note }}</p>
+      </li>
+      {% else %}
+      <li>Nenhum tornado com esse critério neste país.</li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
+
+<section id="brasil">
+  <div class="wrap">
+    <h2>Tornados no Brasil</h2>
+    <p class="sub">O Brasil não tem uma base oficial só de tornados. Os registros aparecem misturados a outros desastres, então os números variam conforme a fonte. A região entre Rio Grande do Sul, Santa Catarina, Paraná e Argentina é a mais afetada.</p>
+    <ul class="timeline">
+      {% for t in brasil %}
+      <li>
+        <span class="when">{{ t.when }}</span>
+        <h3>{{ t.title }}</h3>
+        <p>{{ t.text }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+    <div class="callout">
+      A região Sul do Brasil é frequentemente citada por meteorologistas como a segunda maior área de tornados do planeta, atrás apenas do meio-oeste dos Estados Unidos.
+    </div>
+  </div>
+</section>
+
+<section id="escala">
+  <div class="wrap">
+    <h2>Como se mede a força de um tornado</h2>
+    <p class="sub">A escala Fujita Melhorada (EF) classifica o tornado pelos danos causados. A escala F original, usada em registros antigos como o de 1925, é parecida.</p>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>Nível</th><th>Vento estimado</th><th>Danos típicos</th></tr></thead>
+      <tbody>
+        {% for f in fujita %}
+        <tr class="{{ f.level|lower }}"><td>{{ f.level }}</td><td>{{ f.wind }}</td><td>{{ f.damage }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<section id="curiosidades">
+  <div class="wrap">
+    <h2>Mais recordes</h2>
+    <div class="facts">
+      <div>
+        <h3>Maior trajetória</h3>
+        <p>O tornado Tri-State (1925) percorreu cerca de 352 km pelo Missouri, Illinois e Indiana.</p>
+      </div>
+      <div>
+        <h3>Vento mais forte</h3>
+        <p>Em 3 de maio de 1999, radares móveis mediram cerca de 484 km/h perto de Bridge Creek–Moore, em Oklahoma.</p>
+      </div>
+      <div>
+        <h3>Mais caro dos EUA</h3>
+        <p>Joplin (2011), classificado como EF5, causou cerca de US$ 2,8 bilhões em danos e matou 158 pessoas.</p>
+      </div>
+      <div>
+        <h3>Maior surto</h3>
+        <p>Entre 25 e 28 de abril de 2011, um surto gerou mais de 300 tornados no sul e no leste dos EUA.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Os números são aproximados e variam entre fontes (NOAA, Serviço Meteorológico Nacional dos EUA, Cemaden, INPE, estudos acadêmicos). Confira os dados em fontes oficiais antes de usá-los em trabalhos.</p>
+    <p>Prejuízos nos EUA estão em dólares da época do evento, exceto o Tri-State, que está em valores atuais aproximados.</p>
+  </div>
+</footer>
+
+</body>
+</html>
